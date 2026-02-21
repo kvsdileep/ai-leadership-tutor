@@ -111,6 +111,12 @@ export default function useWebSocket(sessionId) {
     ws.send(JSON.stringify({ type: 'set_pace', data: { pace } }))
   }, [])
 
+  const sendPause = useCallback(() => {
+    const ws = wsRef.current
+    if (!ws || ws.readyState !== WebSocket.OPEN) return
+    ws.send(JSON.stringify({ type: 'pause' }))
+  }, [])
+
   const disconnect = useCallback(() => {
     if (wsRef.current) {
       wsRef.current.close()
@@ -128,6 +134,7 @@ export default function useWebSocket(sessionId) {
     sendAudio,
     sendSkip,
     sendPace,
+    sendPause,
     status,
     messages,
     progress,

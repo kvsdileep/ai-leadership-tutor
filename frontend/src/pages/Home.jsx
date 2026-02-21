@@ -4,10 +4,11 @@ import {
   Box, VStack, Heading, Text, Button, Card, CardBody,
   HStack, Badge, Flex, ButtonGroup, useToast,
 } from '@chakra-ui/react'
-import { fetchModules, createSession } from '../lib/api'
+import { fetchModules, createSession, fetchSessions } from '../lib/api'
 
 export default function Home() {
   const [modules, setModules] = useState([])
+  const [sessions, setSessions] = useState([])
   const [language, setLanguage] = useState('en')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
@@ -17,6 +18,7 @@ export default function Home() {
     fetchModules().then(setModules).catch(() =>
       toast({ title: 'Failed to load modules', status: 'error' })
     )
+    fetchSessions().then(setSessions).catch(() => {})
   }, [toast])
 
   const handleStart = async (moduleId) => {
@@ -70,6 +72,25 @@ export default function Home() {
             </Button>
           </ButtonGroup>
         </Box>
+
+        {/* Existing sessions */}
+        {sessions.map(s => (
+          <Card key={s.id} w="100%" borderRadius="2rem" bg="brand.lavender">
+            <CardBody p={6}>
+              <HStack justify="space-between">
+                <VStack align="start" spacing={0}>
+                  <Text fontWeight={600} fontSize="sm">Continue your session</Text>
+                  <Text fontSize="xs" color="brand.muted">
+                    Section {s.current_section + 1} · {s.status}
+                  </Text>
+                </VStack>
+                <Button size="sm" variant="primary" onClick={() => navigate(`/lesson/${s.id}`)}>
+                  Resume
+                </Button>
+              </HStack>
+            </CardBody>
+          </Card>
+        ))}
 
         {/* Module cards */}
         {modules.map((mod) => (

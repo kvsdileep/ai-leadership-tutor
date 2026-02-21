@@ -18,7 +18,7 @@ export default function Lesson() {
   const toast = useToast()
 
   const {
-    connect, disconnect, sendAudio, sendSkip, sendPace,
+    connect, disconnect, sendAudio, sendSkip, sendPace, sendPause,
     status, messages, progress, error, moduleComplete, sectionComplete,
   } = useWebSocket(sessionId)
 
@@ -79,8 +79,8 @@ export default function Lesson() {
     <Flex direction="column" h="100vh" bg="brand.bg">
       {/* Top bar */}
       <HStack px={4} py={3} borderBottom="1px solid" borderColor="gray.100" justify="space-between">
-        <Button size="sm" variant="ghost" onClick={() => navigate('/')}>
-          ← Back
+        <Button size="sm" variant="ghost" onClick={() => { sendPause(); navigate('/') }}>
+          Pause
         </Button>
         {progress && (
           <VStack spacing={0} align="end">
