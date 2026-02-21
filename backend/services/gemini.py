@@ -2,7 +2,7 @@ import httpx
 from backend.config import settings
 
 
-async def chat_completion(messages: list[dict], temperature: float = 0.7, max_tokens: int = 500) -> str:
+async def chat_completion(messages: list[dict], temperature: float = 0.7, max_tokens: int = 150) -> str:
     """Send a chat completion request to Gemini via OpenRouter."""
     async with httpx.AsyncClient(timeout=30.0) as client:
         response = await client.post(

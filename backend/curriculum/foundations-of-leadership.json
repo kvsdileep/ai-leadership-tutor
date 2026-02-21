@@ -13,25 +13,25 @@
       "steps": [
         {
           "type": "teach",
-          "prompt_guidance": "Welcome the learner warmly. Tell them this is a conversational session about leadership foundations. Set expectations: it will be about 20 minutes, voice-based, and they should feel free to share openly. Keep it to 2-3 sentences.",
-          "prompt_guidance_hi": "शिक्षार्थी का गर्मजोशी से स्वागत करें। बताएं कि यह नेतृत्व की बुनियादी बातों पर एक संवादात्मक सत्र है। 2-3 वाक्यों में रखें।"
+          "prompt_guidance": "Welcome the learner warmly. Tell them this is a conversational session about leadership foundations. Set expectations: it will be about 20 minutes, voice-based, and they should feel free to share openly.",
+          "prompt_guidance_hi": "शिक्षार्थी का गर्मजोशी से स्वागत करें। बताएं कि यह नेतृत्व की बुनियादी बातों पर एक संवादात्मक सत्र है।"
         },
         {
           "type": "teach_and_ask",
           "prompt_guidance": "Ask the ice-breaker: 'When you hear the word leader, who comes to mind — and why?' Be genuinely curious. Keep your lead-in to one sentence before asking.",
           "prompt_guidance_hi": "'जब आप नेता शब्द सुनते हैं तो आपके मन में कौन आता है — और क्यों?' यह सवाल पूछें।",
-          "feedback_guidance": "Acknowledge their answer warmly. Connect their example to the idea that leadership is about influence and impact, not just title or authority. Keep feedback to 2-3 sentences."
+          "feedback_guidance": "Acknowledge their answer warmly. Connect their example to the idea that leadership is about influence and impact, not just title or authority."
         },
         {
           "type": "teach",
-          "prompt_guidance": "Share the core insight: Leadership is not about position — it's about influence. Anyone who makes the people around them better is leading. Give one quick everyday example (a colleague who mentors, a friend who organizes). 2-3 sentences.",
-          "prompt_guidance_hi": "मुख्य अंतर्दृष्टि साझा करें: नेतृत्व पद के बारे में नहीं है — यह प्रभाव के बारे में है। 2-3 वाक्य।"
+          "prompt_guidance": "Share the core insight: Leadership is not about position — it's about influence. Anyone who makes the people around them better is leading. Give one quick everyday example (a colleague who mentors, a friend who organizes).",
+          "prompt_guidance_hi": "मुख्य अंतर्दृष्टि साझा करें: नेतृत्व पद के बारे में नहीं है — यह प्रभाव के बारे में है।"
         },
         {
           "type": "teach_and_ask",
           "prompt_guidance": "Ask: 'Can you think of a time when you influenced someone positively — even without being their boss?' Encourage them to think small and everyday.",
           "prompt_guidance_hi": "'क्या आप किसी ऐसे समय के बारे में सोच सकते हैं जब आपने किसी को सकारात्मक रूप से प्रभावित किया?' पूछें।",
-          "feedback_guidance": "Validate their example enthusiastically. Point out that what they described IS leadership. Transition naturally to the next section about styles. Keep it to 2-3 sentences."
+          "feedback_guidance": "Validate their example enthusiastically. Point out that what they described IS leadership. Transition naturally to the next section about styles."
         }
       ]
     },
@@ -50,13 +50,13 @@
           "type": "scenario",
           "prompt_guidance": "Present a scenario: 'Imagine your team has a project deadline in 3 days, but two team members disagree on the approach. As the team lead, what would you do?' Let them think aloud.",
           "prompt_guidance_hi": "एक परिदृश्य प्रस्तुत करें: 'कल्पना कीजिए कि आपकी टीम की डेडलाइन 3 दिन में है, लेकिन दो सदस्य दृष्टिकोण पर असहमत हैं। आप क्या करेंगे?'",
-          "feedback_guidance": "Identify which style(s) their answer leans toward. Affirm their instinct, then gently note what another style might offer in the same situation. The goal is awareness, not judgment. 2-3 sentences."
+          "feedback_guidance": "Identify which style(s) their answer leans toward. Affirm their instinct, then gently note what another style might offer in the same situation. The goal is awareness, not judgment."
         },
         {
           "type": "reflect",
           "prompt_guidance": "Ask: 'Which of the three styles do you naturally default to? Directive, Collaborative, or Delegative?' Let them self-assess.",
           "prompt_guidance_hi": "'आप स्वाभाविक रूप से किस शैली की ओर झुकते हैं?' पूछें।",
-          "feedback_guidance": "Reflect back what they said. Normalize having a default style. Mention that awareness of your default is the first step to expanding your range — a key theme in leadership growth. 2 sentences."
+          "feedback_guidance": "Reflect back what they said. Normalize having a default style. Mention that awareness of your default is the first step to expanding your range — a key theme in leadership growth."
         }
       ]
     },
@@ -68,20 +68,20 @@
       "steps": [
         {
           "type": "teach",
-          "prompt_guidance": "Transition: 'Knowing your default style is one form of self-awareness. Let's go deeper.' Briefly explain why self-awareness is the foundation of leadership — you can't grow what you can't see. Mention the Admired Leadership idea that excessive self-doubt can actually be a form of selfishness, because it centers on yourself rather than those you serve. 2-3 sentences.",
+          "prompt_guidance": "Transition: 'Knowing your default style is one form of self-awareness. Let's go deeper.' Briefly explain why self-awareness is the foundation of leadership — you can't grow what you can't see. Mention the Admired Leadership idea that excessive self-doubt can actually be a form of selfishness, because it centers on yourself rather than those you serve.",
           "prompt_guidance_hi": "संक्रमण करें और आत्म-जागरूकता के बारे में बताएं। अत्यधिक आत्म-संदेह स्वार्थ का एक रूप हो सकता है।"
         },
         {
           "type": "reflect",
           "prompt_guidance": "Ask: 'What's one strength you bring to a team? Something people count on you for.' Be warm and encouraging.",
           "prompt_guidance_hi": "'आप टीम में क्या ताकत लाते हैं? कोई चीज जिसके लिए लोग आप पर भरोसा करते हैं?' पूछें।",
-          "feedback_guidance": "Affirm their strength genuinely. Briefly note how that strength likely shows up as leadership in their daily life. 1-2 sentences."
+          "feedback_guidance": "Affirm their strength genuinely. Briefly note how that strength likely shows up as leadership in their daily life."
         },
         {
           "type": "reflect",
           "prompt_guidance": "Ask: 'And what's one area you'd like to get better at as a leader? No judgment here — vulnerability is actually a sign of strong leadership.' Make the space safe.",
           "prompt_guidance_hi": "'और एक क्षेत्र जिसमें आप बेहतर होना चाहेंगे? यहाँ कोई निर्णय नहीं है।' पूछें।",
-          "feedback_guidance": "Thank them for being honest. Normalize the area they mentioned — many leaders share it. Connect it to the idea that naming a weakness is the first step to growth. Transition to the next section on feedback. 2-3 sentences."
+          "feedback_guidance": "Thank them for being honest. Normalize the area they mentioned — many leaders share it. Connect it to the idea that naming a weakness is the first step to growth. Transition to the next section on feedback."
         }
       ]
     },
@@ -100,13 +100,13 @@
           "type": "scenario",
           "prompt_guidance": "Present a practice scenario: 'A team member has missed two deadlines in a row. You need to give them feedback. Using the SBI framework, what would you say?' Coach them to try it aloud.",
           "prompt_guidance_hi": "अभ्यास परिदृश्य: 'एक टीम सदस्य ने लगातार दो डेडलाइन मिस की हैं। SBI ढांचे का उपयोग करके, आप क्या कहेंगे?'",
-          "feedback_guidance": "Evaluate their SBI attempt. If they hit all three parts, praise them. If they missed one, gently point it out and model the missing part. Keep it constructive and encouraging. Also note if they naturally included a solution or next step — that's advanced. 2-3 sentences."
+          "feedback_guidance": "Evaluate their SBI attempt. If they hit all three parts, praise them. If they missed one, gently point it out and model the missing part. Keep it constructive and encouraging. Also note if they naturally included a solution or next step — that's advanced."
         },
         {
           "type": "teach_and_ask",
           "prompt_guidance": "Ask: 'Is there a real situation at work where you could use SBI this week? You don't have to share details — just think about whether one comes to mind.' The goal is to make it actionable.",
           "prompt_guidance_hi": "'क्या इस हफ्ते काम पर कोई वास्तविक स्थिति है जहाँ आप SBI का उपयोग कर सकते हैं?' पूछें।",
-          "feedback_guidance": "If they share something, acknowledge it and encourage them to try it. If they say nothing comes to mind, say that's fine — having the framework ready is what matters. Transition to the closing section. 1-2 sentences."
+          "feedback_guidance": "If they share something, acknowledge it and encourage them to try it. If they say nothing comes to mind, say that's fine — having the framework ready is what matters. Transition to the closing section."
         }
       ]
     },
@@ -118,14 +118,14 @@
       "steps": [
         {
           "type": "teach",
-          "prompt_guidance": "Briefly recap the session: we covered what leadership really is (influence, not title), explored styles (and your default), practiced self-awareness, and learned the SBI feedback framework. Say: 'Let's close with one commitment.' Keep the recap to 2-3 sentences.",
+          "prompt_guidance": "Briefly recap the session: we covered what leadership really is (influence, not title), explored styles (and your default), practiced self-awareness, and learned the SBI feedback framework. Say: 'Let's close with one commitment.'",
           "prompt_guidance_hi": "सत्र का संक्षिप्त पुनर्कथन करें और कहें: 'चलिए एक प्रतिबद्धता के साथ समाप्त करते हैं।'"
         },
         {
           "type": "reflect",
           "prompt_guidance": "Ask: 'Based on everything we discussed today, what's ONE thing you'll practice this week? It can be small — that's actually better.' Be encouraging.",
           "prompt_guidance_hi": "'आज की चर्चा के आधार पर, इस हफ्ते आप कौन सी एक चीज अभ्यास करेंगे?' पूछें।",
-          "feedback_guidance": "Reflect back their commitment in your own words. Express genuine confidence in them. Close warmly: thank them for their time and openness, remind them that leadership is a daily practice, and wish them well. Make it feel like a real human goodbye. 3-4 sentences."
+          "feedback_guidance": "Reflect back their commitment in your own words. Express genuine confidence in them. Close warmly: thank them for their time and openness, and wish them well."
         },
         {
           "type": "summarize",

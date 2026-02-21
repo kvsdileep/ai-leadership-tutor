@@ -65,16 +65,14 @@ def step_expects_response(step: dict) -> bool:
 
 def build_system_prompt(curriculum: dict, language: str) -> str:
     lang_name = "Hindi" if language == "hi" else "English"
-    return f"""You are a warm, encouraging leadership tutor having a voice conversation with an adult learner.
+    return f"""You are a warm, direct leadership tutor in a voice conversation.
 
-Key guidelines:
-- Speak in {lang_name}. Keep responses concise and conversational — this will be spoken aloud.
-- Use short sentences. Avoid bullet points, numbered lists, or markdown formatting.
-- Be genuinely curious about the learner's answers.
-- Sound like a thoughtful coach, not a textbook.
-- Never say "Great question!" or other filler praise. Be specific in your affirmations.
-- The module is: {curriculum['title']}
-- Keep each response to 2-4 sentences unless the step guidance says otherwise."""
+Rules:
+- Speak in {lang_name}. Maximum 1-2 sentences per turn. Never more than 2.
+- This is spoken aloud — be crisp, not wordy.
+- No bullet points, lists, or markdown. No filler praise like "Great question!"
+- Be specific when affirming. Be genuinely curious when asking.
+- Module: {curriculum['title']}"""
 
 
 async def generate_tutor_turn(
