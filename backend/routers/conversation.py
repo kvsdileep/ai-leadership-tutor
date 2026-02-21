@@ -79,6 +79,17 @@ async def conversation_ws(ws: WebSocket, session_id: str):
             "total_sections": len(curriculum["sections"]),
         })
 
+        # Send curriculum structure for sidebar
+        sections_info = []
+        for i, sec in enumerate(curriculum["sections"]):
+            sections_info.append({
+                "index": i,
+                "title": sec["title"],
+                "title_hi": sec.get("title_hi", sec["title"]),
+                "step_count": len(sec["steps"]),
+            })
+        await send_json(ws, "curriculum_info", {"sections": sections_info})
+
         # Generate and send the first tutor turn
         await send_json(ws, "status", {"state": "thinking"})
         history = await _build_gemini_history(db, session_id, section_idx)

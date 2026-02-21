@@ -8,6 +8,7 @@ import TutorAvatar from '../components/TutorAvatar'
 import Transcript from '../components/Transcript'
 import MicButton from '../components/MicButton'
 import StatusBar from '../components/StatusBar'
+import SectionSidebar from '../components/SectionSidebar'
 import SpeedControl from '../components/SpeedControl'
 import useWebSocket from '../hooks/useWebSocket'
 import useVoice from '../hooks/useVoice'
@@ -20,6 +21,7 @@ export default function Lesson() {
   const {
     connect, disconnect, sendAudio, sendSkip, sendPace, sendPause,
     status, messages, progress, error, moduleComplete, sectionComplete,
+    curriculumInfo, sectionProgress,
   } = useWebSocket(sessionId)
 
   const { isRecording, startRecording, stopRecording } = useVoice()
@@ -79,9 +81,16 @@ export default function Lesson() {
     <Flex direction="column" h="100vh" bg="brand.bg">
       {/* Top bar */}
       <HStack px={4} py={3} borderBottom="1px solid" borderColor="gray.100" justify="space-between">
-        <Button size="sm" variant="ghost" onClick={() => { sendPause(); navigate('/') }}>
-          Pause
-        </Button>
+        <HStack>
+          <SectionSidebar
+            sections={curriculumInfo?.sections}
+            progress={progress}
+            sectionProgress={sectionProgress}
+          />
+          <Button size="sm" variant="ghost" onClick={() => { sendPause(); navigate('/') }}>
+            Pause
+          </Button>
+        </HStack>
         {progress && (
           <VStack spacing={0} align="end">
             <Text fontSize="xs" color="brand.muted">

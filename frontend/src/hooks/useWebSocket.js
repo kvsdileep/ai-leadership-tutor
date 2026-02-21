@@ -8,6 +8,8 @@ export default function useWebSocket(sessionId) {
   const [error, setError] = useState(null)
   const [moduleComplete, setModuleComplete] = useState(false)
   const [sectionComplete, setSectionComplete] = useState(null)
+  const [curriculumInfo, setCurriculumInfo] = useState(null)
+  const [sectionProgress, setSectionProgress] = useState({})
   const audioQueueRef = useRef([])
   const isPlayingRef = useRef(false)
 
@@ -65,9 +67,20 @@ export default function useWebSocket(sessionId) {
           break
         case 'progress':
           setProgress(data)
+          setSectionProgress(prev => {
+            const next = { ...prev }
+            if (!next[data.section_index] || next[data.section_index] !== 'completed') {
+              next[data.section_index] = 'in_progress'
+            }
+            return next
+          })
+          break
+        case 'curriculum_info':
+          setCurriculumInfo(data)
           break
         case 'section_complete':
           setSectionComplete(data)
+          setSectionProgress(prev => ({ ...prev, [data.section_index]: 'completed' }))
           setTimeout(() => setSectionComplete(null), 3000)
           break
         case 'module_complete':
@@ -141,5 +154,7 @@ export default function useWebSocket(sessionId) {
     error,
     moduleComplete,
     sectionComplete,
+    curriculumInfo,
+    sectionProgress,
   }
 }
