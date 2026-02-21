@@ -8,7 +8,7 @@ LANGUAGE_CONFIG = {
 }
 
 
-async def text_to_speech(text: str, language: str = "en") -> str:
+async def text_to_speech(text: str, language: str = "en", pace: float = 1.25) -> str:
     """Convert text to speech using Sarvam AI. Returns base64 encoded audio."""
     config = LANGUAGE_CONFIG.get(language, LANGUAGE_CONFIG["en"])
 
@@ -24,9 +24,9 @@ async def text_to_speech(text: str, language: str = "en") -> str:
                 "target_language_code": config["language_code"],
                 "model": "bulbul:v2",
                 "speaker": "anushka",
+                "pace": pace,
             },
         )
         response.raise_for_status()
         data = response.json()
-        # Sarvam returns base64-encoded audio in audios array
         return data["audios"][0]

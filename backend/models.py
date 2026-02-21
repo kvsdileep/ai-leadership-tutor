@@ -62,6 +62,8 @@ class WSMessageType(str, Enum):
     audio = "audio"           # Learner's recorded audio
     skip = "skip"             # Skip current step
     start = "start"           # Start/resume the lesson
+    pause = "pause"           # Pause the lesson
+    set_pace = "set_pace"     # Set voice speed
 
     # Server -> Client
     tutor_audio = "tutor_audio"
