@@ -35,6 +35,31 @@ async def start_session(body: SessionCreate):
     )
 
 
+@router.get("", response_model=list[SessionResponse])
+async def list_sessions(status: str | None = None):
+    db = await get_db()
+    try:
+        if status:
+            cursor = await db.execute(
+                "SELECT * FROM sessions WHERE status = ? ORDER BY updated_at DESC", (status,)
+            )
+        else:
+            cursor = await db.execute(
+                "SELECT * FROM sessions WHERE status IN ('active', 'paused') ORDER BY updated_at DESC"
+            )
+        rows = await cursor.fetchall()
+    finally:
+        await db.close()
+
+    return [
+        SessionResponse(
+            id=r["id"], module_id=r["module_id"], language=Language(r["language"]),
+            current_section=r["current_section"], current_step=r["current_step"],
+            status=SessionStatus(r["status"]),
+        ) for r in rows
+    ]
+
+
 @router.get("/{session_id}", response_model=SessionResponse)
 async def get_session_info(session_id: str):
     db = await get_db()

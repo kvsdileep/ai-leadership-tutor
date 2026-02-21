@@ -66,6 +66,10 @@ async def conversation_ws(ws: WebSocket, session_id: str):
         # Mark first section as in_progress
         await update_section_progress(db, session_id, section_idx, "in_progress")
 
+        # Reactivate if resuming a paused session
+        if session["status"] == "paused":
+            await update_session_status(db, session_id, "active")
+
         # Send initial position info
         section_data = get_section(curriculum, section_idx)
         await send_json(ws, "progress", {
@@ -157,6 +161,12 @@ async def conversation_ws(ws: WebSocket, session_id: str):
             elif msg_type == "set_pace":
                 pace_val = msg.get("data", {}).get("pace", 1.25)
                 session_pace = max(0.5, min(2.0, float(pace_val)))
+
+            elif msg_type == "pause":
+                await update_session_status(db, session_id, "paused")
+                await send_json(ws, "status", {"state": "paused"})
+                await ws.close()
+                break
 
     except WebSocketDisconnect:
         logger.info(f"Session {session_id} disconnected")

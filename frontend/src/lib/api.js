@@ -33,3 +33,9 @@ export async function fetchProgress(sessionId) {
   if (!res.ok) throw new Error('Failed to fetch progress')
   return res.json()
 }
+
+export async function fetchSessions() {
+  const res = await fetch(`${API_BASE}/sessions`)
+  if (!res.ok) throw new Error('Failed to fetch sessions')
+  return res.json()
+}
