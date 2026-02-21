@@ -31,7 +31,7 @@ export default function useWebSocket(sessionId) {
     }
   }, [playNextAudio])
 
-  const connect = useCallback(() => {
+  const connect = useCallback((initialPace = 1.25) => {
     if (!sessionId) return
 
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
@@ -43,6 +43,7 @@ export default function useWebSocket(sessionId) {
       setStatus('connected')
       // Send start message
       ws.send(JSON.stringify({ type: 'start' }))
+      ws.send(JSON.stringify({ type: 'set_pace', data: { pace: initialPace } }))
     }
 
     ws.onmessage = (event) => {
@@ -104,6 +105,12 @@ export default function useWebSocket(sessionId) {
     ws.send(JSON.stringify({ type: 'skip' }))
   }, [])
 
+  const sendPace = useCallback((pace) => {
+    const ws = wsRef.current
+    if (!ws || ws.readyState !== WebSocket.OPEN) return
+    ws.send(JSON.stringify({ type: 'set_pace', data: { pace } }))
+  }, [])
+
   const disconnect = useCallback(() => {
     if (wsRef.current) {
       wsRef.current.close()
@@ -120,6 +127,7 @@ export default function useWebSocket(sessionId) {
     disconnect,
     sendAudio,
     sendSkip,
+    sendPace,
     status,
     messages,
     progress,

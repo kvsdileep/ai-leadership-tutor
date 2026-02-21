@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import {
   Box, VStack, HStack, Text, Button, Flex, useToast,
@@ -8,6 +8,7 @@ import TutorAvatar from '../components/TutorAvatar'
 import Transcript from '../components/Transcript'
 import MicButton from '../components/MicButton'
 import StatusBar from '../components/StatusBar'
+import SpeedControl from '../components/SpeedControl'
 import useWebSocket from '../hooks/useWebSocket'
 import useVoice from '../hooks/useVoice'
 
@@ -17,14 +18,22 @@ export default function Lesson() {
   const toast = useToast()
 
   const {
-    connect, disconnect, sendAudio, sendSkip,
+    connect, disconnect, sendAudio, sendSkip, sendPace,
     status, messages, progress, error, moduleComplete, sectionComplete,
   } = useWebSocket(sessionId)
 
   const { isRecording, startRecording, stopRecording } = useVoice()
 
+  const [pace, setPace] = useState(() => parseFloat(localStorage.getItem('tutor_pace') || '1.25'))
+
+  const handlePaceChange = useCallback((newPace) => {
+    setPace(newPace)
+    localStorage.setItem('tutor_pace', String(newPace))
+    sendPace(newPace)
+  }, [sendPace])
+
   useEffect(() => {
-    connect()
+    connect(pace)
     return () => disconnect()
   }, [connect, disconnect])
 
@@ -128,6 +137,7 @@ export default function Lesson() {
         spacing={4}
         bg="white"
       >
+        <SpeedControl value={pace} onChange={handlePaceChange} />
         <Button
           size="sm"
           variant="ghost"

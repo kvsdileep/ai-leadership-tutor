@@ -23,12 +23,12 @@ async def send_json(ws: WebSocket, msg_type: str, data: dict | None = None):
     await ws.send_text(json.dumps({"type": msg_type, "data": data or {}}))
 
 
-async def send_tutor_message(ws: WebSocket, text: str, language: str):
+async def send_tutor_message(ws: WebSocket, text: str, language: str, pace: float = 1.25):
     """Send tutor text + audio to the client."""
     await send_json(ws, "tutor_text", {"text": text})
     await send_json(ws, "status", {"state": "synthesizing"})
     try:
-        audio_b64 = await text_to_speech(text, language)
+        audio_b64 = await text_to_speech(text, language, pace=pace)
         await send_json(ws, "tutor_audio", {"audio": audio_b64})
     except Exception as e:
         logger.error(f"TTS error: {e}")
@@ -53,6 +53,7 @@ async def conversation_ws(ws: WebSocket, session_id: str):
         curriculum = load_curriculum(module_id)
         section_idx = session["current_section"]
         step_idx = session["current_step"]
+        session_pace = 1.25  # default, updated by client via set_pace message
 
         # Wait for "start" message from client
         start_msg = await ws.receive_text()
@@ -80,7 +81,7 @@ async def conversation_ws(ws: WebSocket, session_id: str):
         tutor_text = await generate_tutor_turn(curriculum, section_idx, step_idx, language, history)
 
         await log_conversation(db, session_id, section_idx, step_idx, "tutor", tutor_text, language)
-        await send_tutor_message(ws, tutor_text, language)
+        await send_tutor_message(ws, tutor_text, language, pace=session_pace)
 
         step = get_step(curriculum, section_idx, step_idx)
         if step and not step_expects_response(step):
@@ -88,7 +89,7 @@ async def conversation_ws(ws: WebSocket, session_id: str):
             section_idx, step_idx = _advance(curriculum, db, session_id, section_idx, step_idx)
             await update_session_position(db, session_id, section_idx, step_idx)
             # Generate the next turn immediately
-            await _send_next_tutor_turn(ws, db, session_id, curriculum, section_idx, step_idx, language)
+            await _send_next_tutor_turn(ws, db, session_id, curriculum, section_idx, step_idx, language, pace=session_pace)
         else:
             await send_json(ws, "status", {"state": "listening"})
 
@@ -140,18 +141,22 @@ async def conversation_ws(ws: WebSocket, session_id: str):
                     curriculum, section_idx, step_idx, language, history, learner_response=transcript
                 )
                 await log_conversation(db, session_id, section_idx, step_idx, "tutor", feedback_text, language)
-                await send_tutor_message(ws, feedback_text, language)
+                await send_tutor_message(ws, feedback_text, language, pace=session_pace)
 
                 # Advance after feedback
                 section_idx, step_idx = await _advance_and_notify(
-                    ws, db, session_id, curriculum, section_idx, step_idx, language
+                    ws, db, session_id, curriculum, section_idx, step_idx, language, pace=session_pace
                 )
 
             elif msg_type == "skip":
                 # Skip current step
                 section_idx, step_idx = await _advance_and_notify(
-                    ws, db, session_id, curriculum, section_idx, step_idx, language
+                    ws, db, session_id, curriculum, section_idx, step_idx, language, pace=session_pace
                 )
+
+            elif msg_type == "set_pace":
+                pace_val = msg.get("data", {}).get("pace", 1.25)
+                session_pace = max(0.5, min(2.0, float(pace_val)))
 
     except WebSocketDisconnect:
         logger.info(f"Session {session_id} disconnected")
@@ -172,7 +177,7 @@ def _advance(curriculum: dict, db, session_id: str, section_idx: int, step_idx: 
 
 async def _advance_and_notify(
     ws: WebSocket, db, session_id: str, curriculum: dict,
-    section_idx: int, step_idx: int, language: str
+    section_idx: int, step_idx: int, language: str, pace: float = 1.25
 ) -> tuple[int, int]:
     """Advance to next step, handle section/module completion, send next tutor turn."""
     old_section = section_idx
@@ -206,13 +211,13 @@ async def _advance_and_notify(
     })
 
     # Generate next tutor turn
-    await _send_next_tutor_turn(ws, db, session_id, curriculum, new_section, new_step, language)
+    await _send_next_tutor_turn(ws, db, session_id, curriculum, new_section, new_step, language, pace=pace)
     return new_section, new_step
 
 
 async def _send_next_tutor_turn(
     ws: WebSocket, db, session_id: str, curriculum: dict,
-    section_idx: int, step_idx: int, language: str
+    section_idx: int, step_idx: int, language: str, pace: float = 1.25
 ):
     """Generate and send the next tutor turn, then auto-advance if it's teach-only."""
     step = get_step(curriculum, section_idx, step_idx)
@@ -223,7 +228,7 @@ async def _send_next_tutor_turn(
     history = await _build_gemini_history(db, session_id, section_idx)
     tutor_text = await generate_tutor_turn(curriculum, section_idx, step_idx, language, history)
     await log_conversation(db, session_id, section_idx, step_idx, "tutor", tutor_text, language)
-    await send_tutor_message(ws, tutor_text, language)
+    await send_tutor_message(ws, tutor_text, language, pace=pace)
 
     if not step_expects_response(step):
         # Auto-advance for teach-only and summarize steps
@@ -246,7 +251,7 @@ async def _send_next_tutor_turn(
                 "section_title": section_data["title"] if section_data else "",
                 "total_sections": len(curriculum["sections"]),
             })
-            await _send_next_tutor_turn(ws, db, session_id, curriculum, new_section, new_step, language)
+            await _send_next_tutor_turn(ws, db, session_id, curriculum, new_section, new_step, language, pace=pace)
         else:
             # End of module on a teach/summarize step
             await update_section_progress(db, session_id, section_idx, "completed")
